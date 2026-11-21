@@ -1,0 +1,77 @@
+User-agent: PetalBot
+User-agent: Applebot
+User-agent: Amazonbot
+User-agent: SemrushBot
+User-agent: AhrefsBot
+User-agent: Bytespider
+User-agent: Criteo Bot
+User-agent: GPTBot
+User-agent: OpenAI GPT Bot
+User-agent: OpenAI Searchbot
+User-agent: ChatGPT-User
+User-agent: Facebook External Hit
+User-agent: ADmantX Service Fetcher
+User-agent: theTradeDesk Content Scraper
+User-agent: Proximic / Comscore Crawler
+User-agent: BacklinksBot
+User-agent: Ubermetrics
+User-agent: MJ12bot
+User-agent: trendictionbot
+User-agent: Linux Wget
+User-agent: ClaudeBot
+User-agent: DataForSeoBot
+User-agent: meta-externalagent
+User-agent: keyssobot
+User-agent: VKRobotRB
+User-agent: dotbot
+User-agent: ias-va
+User-agent: Sirdata Bot
+Disallow: /
+
+User-agent: *
+User-agent: Yandex
+Clean-param: p /forum/
+Clean-param: view
+Clean-param: findpost
+Clean-param: searchid
+Clean-param: showforum
+Clean-param: %20hl
+Disallow: /*search.html
+Disallow: /forum/search/
+Disallow: /forum/google-search/
+Disallow: /forum/email-stop/
+Disallow: /forum/vag/boltalka/
+Disallow: /forum/vag/vstrechi-kluba-obschenie-pozdravleniya/
+Disallow: /*/misc/location-info
+Disallow: /*/misc/language
+Disallow: /*/conversations/
+Disallow: /*/reactions
+Disallow: /*bad-url
+Disallow: /*javascript
+Disallow: /*members/
+Disallow: /*showuser=
+Disallow: /*Search&nav
+Disallow: /*warn&mid=
+Disallow: /*Msg&CODE=
+Disallow: /*Msg&MID=
+Disallow: /*Login&CODE=
+Disallow: /*Search&CODE=
+Disallow: /*Stats&CODE=
+Disallow: /*Online&CODE=
+Disallow: /*Mail&CODE=
+Disallow: /*Reg&CODE=
+Disallow: /*Post&CODE=
+Disallow: /*UserCP&CODE=
+Disallow: /*UserCP
+Disallow: /*index.php?act=Search
+Disallow: /*index.php?act=Help
+Disallow: /*index.php?act=Forward
+Disallow: /*index.php?act=Track
+Disallow: /*Stats
+Disallow: /*Members
+Disallow: /*Print&client=wordr
+Disallow: /*Print&client=choose
+Disallow: /*Print&client=html
+Disallow: /*Print&client=printer
+Disallow: /*android-app:/
+Host: https://vwts.ru
