@@ -1,0 +1,78 @@
+# Собирает готовые программы (без необходимости ставить Python) для Windows и Mac.
+# Запуск: вкладка Actions на GitHub -> "Build apps" -> "Run workflow".
+# Готовые архивы появятся внизу страницы запуска, в разделе Artifacts.
+name: Build apps
+
+on:
+  workflow_dispatch:
+  push:
+    tags: ["v*"]          # при создании тега v1.0 архивы ещё и прикрепятся к релизу
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            archive: VinPartsHelper-Windows
+            mode: --onefile
+            output: dist/VinPartsHelper.exe
+            icon: assets/icon.ico
+            extra: >-
+              --collect-all pythonnet --collect-all clr_loader
+              --hidden-import webview.platforms.edgechromium --hidden-import webview.platforms.winforms
+          - os: macos-latest
+            archive: VinPartsHelper-Mac
+            mode: ""
+            output: VinPartsHelper-Mac.zip
+            icon: assets/icon.icns
+            extra: >-
+              --osx-bundle-identifier local.vinpartshelper
+              --hidden-import webview.platforms.cocoa
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install dependencies
+        run: python -m pip install -r requirements.txt -r requirements-build.txt pytest
+
+      - name: Tests (report only, do not block the build)
+        continue-on-error: true
+        run: python -m pytest -q
+
+      - name: Build app
+        run: |
+          SEP=":"; if [ "$RUNNER_OS" = "Windows" ]; then SEP=";"; fi
+          python -m PyInstaller --noconfirm --clean --windowed ${{ matrix.mode }} \
+            --name VinPartsHelper --icon "${{ matrix.icon }}" \
+            --add-data "vinparts/app/static${SEP}vinparts/app/static" \
+            --collect-all pypdfium2 --collect-all pypdfium2_raw --collect-all webview \
+            --collect-submodules lxml --hidden-import lxml._elementpath \
+            --exclude-module tkinter ${{ matrix.extra }} \
+            vinparts_app.py
+
+      - name: Pack (Mac)
+        if: runner.os == 'macOS'
+        run: ditto -c -k --keepParent dist/VinPartsHelper.app "${{ matrix.archive }}.zip"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.archive }}
+          path: ${{ matrix.output }}
+
+      - name: Attach to release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: ${{ matrix.output }}
