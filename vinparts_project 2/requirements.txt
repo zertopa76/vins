@@ -1,8 +1,0 @@
-requests>=2.31
-beautifulsoup4>=4.12
-lxml>=5.0
-pypdf>=4.0
-platformdirs>=4.0
-pypdfium2>=4.30
-pillow>=10.0
-pywebview>=5.3; sys_platform != "linux"
